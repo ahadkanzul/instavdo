@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ahad Insta Video Downloader</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      color: #00ff99;
+      font-family: 'Courier New', monospace;
+      overflow: hidden;
+    }
+
+    canvas#matrix {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+    }
+
+    .terminal {
+      position: relative;
+      max-width: 600px;
+      margin: 100px auto;
+      background: rgba(0, 0, 0, 0.8);
+      border: 2px solid #00ff99;
+      border-radius: 12px;
+      box-shadow: 0 0 20px #00ff99;
+      padding: 30px;
+      text-align: center;
+      animation: fadeIn 1.5s ease;
+    }
+
+    h1 {
+      font-size: 24px;
+      letter-spacing: 2px;
+      color: #00ff99;
+      text-shadow: 0 0 15px #00ff99;
+      margin-bottom: 15px;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      background: black;
+      border: 1px solid #00ff99;
+      border-radius: 6px;
+      color: #00ff99;
+      font-size: 16px;
+      text-align: center;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    input:focus {
+      box-shadow: 0 0 10px #00ff99;
+    }
+
+    button:hover {
+      background: #00ff99;
+      color: black;
+      cursor: pointer;
+      box-shadow: 0 0 15px #00ff99;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 14px;
+      color: #00ff99;
+      opacity: 0.8;
+    }
+
+    .footer a {
+      color: #00ff99;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="matrix"></canvas>
+
+  <div class="terminal">
+    <h1>AHAD INSTA VIDEO DOWNLOADER</h1>
+    <p>Enter Instagram Video or Reel URL:</p>
+    <input type="text" id="instaUrl" placeholder="https://www.instagram.com/reel/...">
+    <button onclick="downloadVideo()">Download Video</button>
+    <button onclick="openChannel()">Join Ahad Hacker Channel</button>
+    <div class="footer">© 2025 Ahad | Matrix System</div>
+  </div>
+
+  <script>
+    /* ========== MATRIX RAIN BACKGROUND ========== */
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
+
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%";
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = [];
+
+    for (let i = 0; i < columns; i++) drops[i] = 1;
+
+    function draw() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "#00ff99";
+      ctx.font = fontSize + "px monospace";
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters.charAt(Math.floor(Math.random() * letters.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      }
+    }
+    setInterval(draw, 33);
+
+    /* ========== VIDEO DOWNLOAD FUNCTION ========== */
+    function downloadVideo() {
+      const url = document.getElementById("instaUrl").value;
+      if (!url) {
+        alert("Please enter a valid Instagram URL!");
+        return;
+      }
+
+      const apiUrl = `https://instagram.f-a-k.workers.dev/?url=${encodeURIComponent(url)}`;
+
+      fetch(apiUrl)
+        .then(res => {
+          if (!res.ok) throw new Error("Invalid response");
+          return res.blob();
+        })
+        .then(blob => {
+          const a = document.createElement("a");
+          a.href = URL.createObjectURL(blob);
+          a.download = "ahad_insta_video.mp4";
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+        })
+        .catch(err => {
+          console.error(err);
+          alert("Failed to download video. Please try again later.");
+        });
+    }
+
+    /* ========== CHANNEL LINK ========== */
+    function openChannel() {
+      window.open("https://whatsapp.com/channel/0029Vb6BEaL8KMqg5r7Qm01t", "_blank");
+    }
+  </script>
+</body>
+  </html>
